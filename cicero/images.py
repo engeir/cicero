@@ -3,31 +3,27 @@ import re
 
 def expand_img_link(s, prefix):
 
-    if "![" in s and "](" in s:
-        if "http" not in s:
-            p = re.compile(r"!\[(.*)\]\(")
-            alt = p.findall(s)[0]
-            p = re.compile(r'!\[.*\]\(([^")]+)')
-            src = p.findall(s)[0]
-            return "![{0}]({1}{2})\n".format(alt, prefix, src)
+    if "![" in s and "](" in s and "http" not in s:
+        p = re.compile(r"!\[(.*)\]\(")
+        alt = p.findall(s)[0]
+        p = re.compile(r'!\[.*\]\(([^")]+)')
+        src = p.findall(s)[0]
+        return "![{0}]({1}{2})\n".format(alt, prefix, src)
 
-    if "<img" in s and 'src="' in s:
-        if "http" not in s:
-            p = re.compile(r'<img [^>]*src="([^"]+)')
-            src = p.findall(s)[0]
-            return s.replace(src, prefix + src)
+    if "<img" in s and 'src="' in s and "http" not in s:
+        p = re.compile(r'<img [^>]*src="([^"]+)')
+        src = p.findall(s)[0]
+        return s.replace(src, prefix + src)
 
-    if "<source" in s and 'src="' in s:
-        if "http" not in s:
-            p = re.compile(r'<source [^>]*src="([^"]+)')
-            src = p.findall(s)[0]
-            return s.replace(src, prefix + src)
+    if "<source" in s and 'src="' in s and "http" not in s:
+        p = re.compile(r'<source [^>]*src="([^"]+)')
+        src = p.findall(s)[0]
+        return s.replace(src, prefix + src)
 
-    if "background-image: url(" in s:
-        if "http" not in s:
-            p = re.compile(r'background-image: url\(([^")]+)')
-            src = p.findall(s)[0]
-            return s.replace(src, prefix + src)
+    if "background-image: url(" in s and "http" not in s:
+        p = re.compile(r'background-image: url\(([^")]+)')
+        src = p.findall(s)[0]
+        return s.replace(src, prefix + src)
 
     return s
 

@@ -8,19 +8,24 @@ from jinja2 import Template
 def _read_if_exists(url_prefix, custom_prefix, suffix, engine):
 
     if url_prefix is None:
-        custom_file_name = custom_prefix + "." + suffix
+        custom_file_name = f'{custom_prefix}.' + suffix
         if os.path.isfile(custom_file_name):
             with io.open(custom_file_name, "r") as f:
                 return f.read()
     else:
-        url = url_prefix + "/" + custom_prefix + "." + suffix
+        url = f'{url_prefix}/{custom_prefix}.' + suffix
         response = requests.get(url)
         if response.status_code != 404:
             return response.text
 
     vendor_file_name = os.path.join(
-        os.path.dirname(__file__), "static", "engines", engine, "vendor." + suffix
+        os.path.dirname(__file__),
+        "static",
+        "engines",
+        engine,
+        f'vendor.{suffix}',
     )
+
     if os.path.isfile(vendor_file_name):
         with io.open(vendor_file_name, "r") as f:
             return f.read()
@@ -30,7 +35,7 @@ def _read_if_exists(url_prefix, custom_prefix, suffix, engine):
 
 def render(engine, url_prefix, md_file_prefix, markdown):
 
-    engine_root = flask.url_for("static", filename="engines/" + engine)
+    engine_root = flask.url_for("static", filename=f'engines/{engine}')
 
     # flask.Markup to disable autoescaping
     custom_css = flask.Markup(
