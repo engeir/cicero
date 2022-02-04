@@ -5,11 +5,9 @@ import ntpath
 
 
 def _get_list_of_engines():
-    engines = []
-    for path in glob.glob(
+    engines = [ntpath.basename(path) for path in glob.glob(
         os.path.join(os.path.dirname(__file__), "static", "engines", "*")
-    ):
-        engines.append(ntpath.basename(path))
+    )]
     return sorted(engines)
 
 

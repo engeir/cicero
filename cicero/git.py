@@ -74,13 +74,13 @@ def render_url_markdown(path, engine, engine_version):
     if "/" in md_file_path:
         url_prefix += md_file_path_root
 
-    url = url_prefix + "/" + md_file
+    url = f'{url_prefix}/{md_file}'
     response = requests.get(url)
     if response.status_code == 404:
         return flask.render_template("404.html")
     markdown = response.text
 
-    markdown = fix_images(markdown, image_url_prefix + "/")
+    markdown = fix_images(markdown, f'{image_url_prefix}/')
 
     return render(
         engine="{0}-{1}".format(engine, engine_version),
